@@ -16,61 +16,63 @@ void setup()
 }
 /*
 Tabla de entradas
-0 - > 1500
-150 -> 1200
-222 -> 1777
-254 -> 2040
+0 - > 1500 ApagarS
+150 -> 1200 Incremento 
+222 -> 1777 Encender
+254 -> 2040 Decremento
 */
 void loop()
 {
   int16_t x;
   uint16_t rcthroff = 900;
-  uint16_t rcthr = 900;
+  uint16_t rcthr = 1100;
 
   x = hal.rcin->read(6);
   hal.console->printf_P(PSTR("%d \r\n"),x);
 //*********Off*********
-  if(x<1520 && x > 1470)
+  if(x > 1470 && x < 1520)
   {
       hal.rcout->write(0, rcthroff);
       hal.rcout->write(1, rcthroff);
       hal.rcout->write(2, rcthroff);
       hal.rcout->write(3, rcthroff);
+      rcthr = 900;
   }
   //*****Incremento****
- if (x<1190 && x > 1250)
+ if (x > 2000 && x < 2100)
  {
-      hal.rcout->write(0, rcthr);
+      
+        hal.rcout->write(0, rcthr);
     	hal.rcout->write(1, rcthr);
     	hal.rcout->write(2, rcthr);
-    	hal.rcout->write(3, rcthr);
-      delay(100)
-      rcthr = rcthr + 1;
+    	hal.rcout->write(3, rcthr);  
+        rcthr = rcthr + 10;
   }
   //*******ON************
-   if (x>1600 && x< 1800)
+   if (x > 1600 && x < 1800)
    {
-      hal.rcout->write(0, rcthr);
+     hal.console->printf_P(PSTR("%d \r\n"),"Hola");
+        hal.rcout->write(0, rcthr);
     	hal.rcout->write(1, rcthr);
     	hal.rcout->write(2, rcthr);
     	hal.rcout->write(3, rcthr);
-      
-      rcthr = rcthr - 1;
   }
-     if (x>1600 && x< 1800)
+  //******DECREMENTO********
+     if (x > 1190 && x < 1250)
    {
-      hal.rcout->write(0, rcthr);
+        hal.rcout->write(0, rcthr);
     	hal.rcout->write(1, rcthr);
     	hal.rcout->write(2, rcthr);
     	hal.rcout->write(3, rcthr);
-      rcthr = rcthr - 1;
+      //  rcthr = rcthr - 10 ;
   }
   else
   {
-      hal.rcout->write(0, rcthroff);
+        hal.rcout->write(0, rcthroff);
     	hal.rcout->write(1, rcthroff);
     	hal.rcout->write(2, rcthroff);
     	hal.rcout->write(3, rcthroff);
+        rcthr = 900;
   }
 
 }
