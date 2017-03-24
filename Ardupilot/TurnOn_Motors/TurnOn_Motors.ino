@@ -17,7 +17,7 @@ void setup()
 /*
 Tabla de entradas
 0 - > 1500 ApagarS
-150 -> 1200 Incremento 
+150 -> 1200 Incremento
 222 -> 1777 Encender
 254 -> 2040 Decremento
 */
@@ -32,27 +32,32 @@ void loop()
 //*********Off*********
   if(x > 1470 && x < 1520)
   {
+      hal.console->printf_P(PSTR("OFF\n"),"");
       hal.rcout->write(0, rcthroff);
       hal.rcout->write(1, rcthroff);
       hal.rcout->write(2, rcthroff);
       hal.rcout->write(3, rcthroff);
-      rcthr = 900;
+      rcthr = 1100;
   }
   //*****Incremento****
  if (x > 2000 && x < 2100)
  {
-      
-        hal.rcout->write(0, rcthr);
+      hal.console->printf_P(PSTR("INCREMENTO\n"),"");
+      hal.rcout->write(0, rcthr);
     	hal.rcout->write(1, rcthr);
     	hal.rcout->write(2, rcthr);
-    	hal.rcout->write(3, rcthr);  
-        rcthr = rcthr + 10;
+    	hal.rcout->write(3, rcthr);
+          if(rcthr<1800){
+            rcthr = rcthr + 10;
+          }
+          else{rcthr = 1100;}
+      
   }
   //*******ON************
    if (x > 1600 && x < 1800)
    {
-     hal.console->printf_P(PSTR("%d \r\n"),"Hola");
-        hal.rcout->write(0, rcthr);
+      hal.console->printf_P(PSTR("ENCENDIDO\n"),"");
+      hal.rcout->write(0, rcthr);
     	hal.rcout->write(1, rcthr);
     	hal.rcout->write(2, rcthr);
     	hal.rcout->write(3, rcthr);
@@ -60,20 +65,13 @@ void loop()
   //******DECREMENTO********
      if (x > 1190 && x < 1250)
    {
-        hal.rcout->write(0, rcthr);
+      hal.console->printf_P(PSTR("DECREMENTO\n"),"");
+      hal.rcout->write(0, rcthr);
     	hal.rcout->write(1, rcthr);
     	hal.rcout->write(2, rcthr);
     	hal.rcout->write(3, rcthr);
-      //  rcthr = rcthr - 10 ;
-  }
-  else
-  {
-        hal.rcout->write(0, rcthroff);
-    	hal.rcout->write(1, rcthroff);
-    	hal.rcout->write(2, rcthroff);
-    	hal.rcout->write(3, rcthroff);
-        rcthr = 900;
+       rcthr = rcthr - 10 ;
   }
 
 }
-AP_HAL_MAIN();    // special macro that replace's one of Arduino's to setup the code (e.g. ensure loop() is called in a loop)
+AP_HAL_MAIN();  
